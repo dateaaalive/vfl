@@ -1,0 +1,8 @@
+haddr: localhost
+hid: '1'
+hport: 50051
+cid:
+- '2'
+- '3'
+epoch: 10
+lr: 0.0001

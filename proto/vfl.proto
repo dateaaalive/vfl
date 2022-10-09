@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package vfl_package;
+
+service Vfl {
+  rpc register(NodeInfo) returns (Code) {}
+  rpc upload_encrypt_data(UploadData) returns (Code) {}
+  rpc get_col_encrypt_data(NodeInfo) returns (DownloadData) {}
+  rpc upload_encrypt_gradient(EncryptGradient) returns (Code) {}
+  rpc get_decrypt_gradient(NodeInfo) returns (DecryptGradient) {}
+  rpc upload_encrypt_power(UploadData) returns (Code) {}
+  rpc get_encrypt_power(NodeInfo) returns (DownloadData) {}
+  rpc upload_data_list(UploadDataList) returns (Code) {}
+  rpc get_data_list(NodeInfo) returns (DownloadDataList) {}
+  rpc upload_total_loss(UploadData) returns (Code) {}
+  rpc get_total_loss(NodeInfo) returns (Loss) {}
+}
+
+message Code {
+  int32 code = 1;
+  string desc = 2;
+}
+
+message NodeInfo {
+  string cid = 1;
+  int32 epoch = 2;
+}
+
+message EncryptData {
+  string ciphertext = 1;
+  int32 exponent = 2;
+}
+
+message UploadData {
+  NodeInfo node = 1;
+  EncryptData data = 2;
+}
+
+message UploadDataList {
+  NodeInfo node = 1;
+  repeated EncryptData data_list = 2;
+}
+
+message DownloadData {
+  Code code = 1;
+  EncryptData data = 2;
+}
+
+message DownloadDataList {
+  Code code = 1;
+  repeated EncryptData data_list = 2;
+}
+
+message EncryptGradient {
+  NodeInfo node = 1;
+  repeated EncryptData w = 2;
+  EncryptData b = 3;
+}
+
+message DecryptGradient {
+  Code code = 1;
+  repeated float w = 2;
+  float b = 3;
+}
+
+message Loss {
+  Code code = 1;
+  float loss = 2;
+}
