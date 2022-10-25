@@ -13,8 +13,8 @@ class VflHost:
             futures.ThreadPoolExecutor(max_workers=10),
             compression=grpc.Compression.Gzip,
             options=[
-                ("grpc.max_send_message_length", 256 * 1024 * 1024),
-                ("grpc.max_receive_message_length", 256 * 1024 * 1024)
+                ("grpc.max_send_message_length", 1024 * 1024 * 1024),
+                ("grpc.max_receive_message_length", 1024 * 1024 * 1024)
             ]
         )
         vfl_pb2_grpc.add_VflServicer_to_server(self.rpc_servicer, self.rpc_server)
@@ -85,8 +85,10 @@ class VflService(vfl_pb2_grpc.VflServicer):
             return vfl_pb2.Code(code=1, desc="fail to upload gradient to server.")
 
     def get_decrypt_gradient(self, request, context):
+        cid = request.cid
         epoch = request.epoch
         if epoch != (self.ser_control.epoch - 1):
+            print(f"{cid} epoch: {epoch}, server epoch: {self.ser_control.epoch}")
             return vfl_pb2.DecryptGradient(code=vfl_pb2.Code(code=1, desc="server epoch not ready"), w=None, b=None)
         cid = request.cid
         raw_w = self.ser_control.raw_w[cid]
@@ -111,17 +113,59 @@ class VflService(vfl_pb2_grpc.VflServicer):
     def get_encrypt_power(self, request, context):
         epoch = request.epoch
         if epoch != self.ser_control.epoch:
-            return vfl_pb2.DownloadData(code=vfl_pb2.Code(code=1, desc="server epoch not ready"),
-                                            data=vfl_pb2.EncryptData(ciphertext=None, exponent=None))
-        encrypt_power = self.ser_control.encrypt_power
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server epoch not ready"),
+                                            data=None)
+        encrypt_power = self.ser_control.get_encrypt_power()
         if encrypt_power is None:
-            return vfl_pb2.DownloadData(code=vfl_pb2.Code(code=1, desc="server not get encrypt power."),
-                                            data=vfl_pb2.EncryptData(ciphertext=None, exponent=None))
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server not get encrypt power."),
+                                            data=None)
         else:
-            ciphertext = str(encrypt_power.ciphertext())
-            exponent = encrypt_power.exponent
-            return vfl_pb2.DownloadData(code=vfl_pb2.Code(code=0, desc="get encrypt power successfully"),
-                                            data=vfl_pb2.EncryptData(ciphertext=ciphertext, exponent=exponent))
+            rpc_data_dict = {}
+            for cid, data in encrypt_power.items():
+                ciphertext = str(data.ciphertext())
+                exponent = data.exponent
+                rpc_data = vfl_pb2.EncryptData(ciphertext=ciphertext, exponent=exponent)
+                rpc_data_dict[cid] = rpc_data
+            print(f"rpc_data_dict: {rpc_data_dict}")
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=0, desc="get encrypt power successfully"),
+                                            data=rpc_data_dict)
+
+    def upload_cross_wx_y(self, request, context):
+        cid = request.node.cid
+        epoch = request.node.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.Code(code=1, desc=f"server epoch not ready.")
+        cid_list = []
+        cip_list = []
+        exp_list = []
+        for cid, data in request.data.items():
+            cid_list.append(cid)
+            cip_list.append(int(data.ciphertext))
+            exp_list.append(data.exponent)
+        res = self.ser_control.upload_cross_wx_y(cid_list, cip_list, exp_list)
+        if res:
+            return vfl_pb2.Code(code=0, desc="upload encrypt power successfully! waiting other get encrypt power...")
+
+    def get_cross_wx_y(self, request, context):
+        epoch = request.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server epoch not ready"),
+                                            data=None)
+        cross_wx_y = self.ser_control.get_cross_wx_y()
+        if cross_wx_y is None:
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server not get encrypt power."),
+                                            data=None)
+        else:
+            print(f"cross_wx_y: {cross_wx_y}")
+            rpc_data_dict = {}
+            for cid, data in cross_wx_y.items():
+                ciphertext = str(data.ciphertext())
+                exponent = data.exponent
+                rpc_data = vfl_pb2.EncryptData(ciphertext=ciphertext, exponent=exponent)
+                rpc_data_dict[cid] = rpc_data
+            print(f"rpc_data_dict: {rpc_data_dict}")
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=0, desc="get encrypt power successfully"),
+                                            data=rpc_data_dict)
 
     def upload_data_list(self, request, context):
         cid = request.node.cid
@@ -134,7 +178,7 @@ class VflService(vfl_pb2_grpc.VflServicer):
         for enc_num in data_list:
             ciphertext.append(int(enc_num.ciphertext))
             exponent.append(enc_num.exponent)
-        res = self.ser_control.upload_data_list(ciphertext, exponent)
+        res = self.ser_control.upload_data_list(cid, ciphertext, exponent)
         if res:
             return vfl_pb2.Code(code=0, desc="upload data list successfully! waiting other get data list...")
 
@@ -142,16 +186,19 @@ class VflService(vfl_pb2_grpc.VflServicer):
         epoch = request.epoch
         if epoch != self.ser_control.epoch:
             return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=1, desc=f"server epoch not ready."), data_list=None)
-        data_list = self.ser_control.data_list
-        if data_list is None:
+        data_dict = self.ser_control.get_data_list()
+        if data_dict is None:
             return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=1, desc=f"server not get data_list."),
                                             data_list=None)
         else:
-            rpc_data_list = []
-            for data in data_list:
-                rpc_data_list.append(vfl_pb2.EncryptData(ciphertext=str(data.ciphertext()), exponent=data.exponent))
+            rpc_data_dict = {}
+            for cid, data_list in data_dict.items():
+                rpc_data_list = []
+                for data in data_list:
+                    rpc_data_list.append(vfl_pb2.EncryptData(ciphertext=str(data.ciphertext()), exponent=data.exponent))
+                rpc_data_dict[cid] = vfl_pb2.DataList(data_list=rpc_data_list)
             return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=0, desc=f"get data_list successfully."),
-                                            data_list=rpc_data_list)
+                                            data_list=rpc_data_dict)
 
     def upload_total_loss(self, request, context):
         epoch = request.node.epoch
@@ -175,3 +222,100 @@ class VflService(vfl_pb2_grpc.VflServicer):
         else:
             return vfl_pb2.Loss(code=vfl_pb2.Code(code=0, desc="get total loss successfully"),
                                 loss=total_loss)
+
+    def unlearn_one_client(self, request, context):
+        cid = request.cid
+        res = self.ser_control.unlearn_one_client(cid)
+        if res:
+            return vfl_pb2.Code(code=0, desc="unlearn one client successfully! waiting get unlearn param.")
+
+    def get_unlearn_param(self, request, context):
+        res = self.ser_control.unlearn_data
+        if res is None:
+            return vfl_pb2.DownloadData(code=vfl_pb2.Code(code=1, desc="server not get unlearn param."),
+                                        data=vfl_pb2.EncryptData(ciphertext=None, exponent=None))
+        else:
+            ciphertext = str(res.ciphertext())
+            exponent = res.exponent
+            return vfl_pb2.DownloadData(code=vfl_pb2.Code(code=0, desc="get unlearn param successfully"),
+                                        data=vfl_pb2.EncryptData(ciphertext=ciphertext, exponent=exponent))
+
+    def upload_unlearn_power(self, request, context):
+        cid = request.node.cid
+        epoch = request.node.epoch
+        if epoch != self.ser_control.epoch:
+            print(f"client epoch: {epoch}, server epoch: {self.ser_control.epoch}.")
+            return vfl_pb2.Code(code=1, desc=f"server epoch not ready.")
+        ciphertext = int(request.data.ciphertext)
+        exponent = request.data.exponent
+        res = self.ser_control.upload_unlearn_power(cid, ciphertext, exponent)
+        if res:
+            return vfl_pb2.Code(code=0, desc="upload encrypt power successfully! waiting other get encrypt power...")
+
+    def upload_unlearn_data_list(self, request, context):
+        cid = request.node.cid
+        epoch = request.node.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.Code(code=1, desc=f"server epoch not ready.")
+        data_list = request.data_list
+        ciphertext = []
+        exponent = []
+        for enc_num in data_list:
+            ciphertext.append(int(enc_num.ciphertext))
+            exponent.append(enc_num.exponent)
+        res = self.ser_control.upload_unlearn_data_list(cid, ciphertext, exponent)
+        if res:
+            return vfl_pb2.Code(code=0, desc="upload data list successfully! waiting other get data list...")
+
+    def get_unlearn_power(self, request, context):
+        epoch = request.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server epoch not ready"),
+                                            data=None)
+        unlearn_power = self.ser_control.get_unlearn_power()
+        if unlearn_power is None:
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=1, desc="server not get encrypt power."),
+                                            data=None)
+        else:
+            rpc_data_dict = {}
+            for cid, data in unlearn_power.items():
+                ciphertext = str(data.ciphertext())
+                exponent = data.exponent
+                rpc_data = vfl_pb2.EncryptData(ciphertext=ciphertext, exponent=exponent)
+                rpc_data_dict[cid] = rpc_data
+            print(f"rpc_data_dict: {rpc_data_dict}")
+            return vfl_pb2.DownloadDataDict(code=vfl_pb2.Code(code=0, desc="get encrypt power successfully"),
+                                            data=rpc_data_dict)
+
+    def get_unlearn_data_list(self, request, context):
+        epoch = request.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=1, desc=f"server epoch not ready."), data_list=None)
+        data_dict = self.ser_control.get_unlearn_data_list()
+        if data_dict is None:
+            return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=1, desc=f"server not get data_list."),
+                                            data_list=None)
+        else:
+            rpc_data_dict = {}
+            for cid, data_list in data_dict.items():
+                rpc_data_list = []
+                for data in data_list:
+                    rpc_data_list.append(vfl_pb2.EncryptData(ciphertext=str(data.ciphertext()), exponent=data.exponent))
+                rpc_data_dict[cid] = vfl_pb2.DataList(data_list=rpc_data_list)
+            return vfl_pb2.DownloadDataList(code=vfl_pb2.Code(code=0, desc=f"get data_list successfully."),
+                                            data_list=rpc_data_dict)
+
+    def upload_logit_list(self, request, context):
+        cid = request.node.cid
+        epoch = request.node.epoch
+        if epoch != self.ser_control.epoch:
+            return vfl_pb2.Code(code=1, desc=f"server epoch not ready.")
+        data_list = request.data_list
+        ciphertext = []
+        exponent = []
+        for enc_num in data_list:
+            ciphertext.append(int(enc_num.ciphertext))
+            exponent.append(enc_num.exponent)
+        res = self.ser_control.upload_logit_list(cid, ciphertext, exponent)
+        return vfl_pb2.DecryptLogit(code=vfl_pb2.Code(code=0, desc=f"get logit list successfully."),
+                                    logit=res)

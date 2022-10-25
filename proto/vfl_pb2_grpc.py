@@ -47,7 +47,7 @@ class VflStub(object):
         self.get_encrypt_power = channel.unary_unary(
                 '/vfl_package.Vfl/get_encrypt_power',
                 request_serializer=vfl__pb2.NodeInfo.SerializeToString,
-                response_deserializer=vfl__pb2.DownloadData.FromString,
+                response_deserializer=vfl__pb2.DownloadDataDict.FromString,
                 )
         self.upload_data_list = channel.unary_unary(
                 '/vfl_package.Vfl/upload_data_list',
@@ -68,6 +68,51 @@ class VflStub(object):
                 '/vfl_package.Vfl/get_total_loss',
                 request_serializer=vfl__pb2.NodeInfo.SerializeToString,
                 response_deserializer=vfl__pb2.Loss.FromString,
+                )
+        self.unlearn_one_client = channel.unary_unary(
+                '/vfl_package.Vfl/unlearn_one_client',
+                request_serializer=vfl__pb2.NodeInfo.SerializeToString,
+                response_deserializer=vfl__pb2.Code.FromString,
+                )
+        self.get_unlearn_param = channel.unary_unary(
+                '/vfl_package.Vfl/get_unlearn_param',
+                request_serializer=vfl__pb2.NodeInfo.SerializeToString,
+                response_deserializer=vfl__pb2.DownloadData.FromString,
+                )
+        self.upload_cross_wx_y = channel.unary_unary(
+                '/vfl_package.Vfl/upload_cross_wx_y',
+                request_serializer=vfl__pb2.UploadDataDict.SerializeToString,
+                response_deserializer=vfl__pb2.Code.FromString,
+                )
+        self.get_cross_wx_y = channel.unary_unary(
+                '/vfl_package.Vfl/get_cross_wx_y',
+                request_serializer=vfl__pb2.NodeInfo.SerializeToString,
+                response_deserializer=vfl__pb2.DownloadDataDict.FromString,
+                )
+        self.upload_unlearn_power = channel.unary_unary(
+                '/vfl_package.Vfl/upload_unlearn_power',
+                request_serializer=vfl__pb2.UploadData.SerializeToString,
+                response_deserializer=vfl__pb2.Code.FromString,
+                )
+        self.get_unlearn_power = channel.unary_unary(
+                '/vfl_package.Vfl/get_unlearn_power',
+                request_serializer=vfl__pb2.NodeInfo.SerializeToString,
+                response_deserializer=vfl__pb2.DownloadDataDict.FromString,
+                )
+        self.upload_unlearn_data_list = channel.unary_unary(
+                '/vfl_package.Vfl/upload_unlearn_data_list',
+                request_serializer=vfl__pb2.UploadDataList.SerializeToString,
+                response_deserializer=vfl__pb2.Code.FromString,
+                )
+        self.get_unlearn_data_list = channel.unary_unary(
+                '/vfl_package.Vfl/get_unlearn_data_list',
+                request_serializer=vfl__pb2.NodeInfo.SerializeToString,
+                response_deserializer=vfl__pb2.DownloadDataList.FromString,
+                )
+        self.upload_logit_list = channel.unary_unary(
+                '/vfl_package.Vfl/upload_logit_list',
+                request_serializer=vfl__pb2.UploadDataList.SerializeToString,
+                response_deserializer=vfl__pb2.DecryptLogit.FromString,
                 )
 
 
@@ -140,6 +185,60 @@ class VflServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def unlearn_one_client(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_unlearn_param(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def upload_cross_wx_y(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_cross_wx_y(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def upload_unlearn_power(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_unlearn_power(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def upload_unlearn_data_list(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_unlearn_data_list(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def upload_logit_list(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_VflServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -176,7 +275,7 @@ def add_VflServicer_to_server(servicer, server):
             'get_encrypt_power': grpc.unary_unary_rpc_method_handler(
                     servicer.get_encrypt_power,
                     request_deserializer=vfl__pb2.NodeInfo.FromString,
-                    response_serializer=vfl__pb2.DownloadData.SerializeToString,
+                    response_serializer=vfl__pb2.DownloadDataDict.SerializeToString,
             ),
             'upload_data_list': grpc.unary_unary_rpc_method_handler(
                     servicer.upload_data_list,
@@ -197,6 +296,51 @@ def add_VflServicer_to_server(servicer, server):
                     servicer.get_total_loss,
                     request_deserializer=vfl__pb2.NodeInfo.FromString,
                     response_serializer=vfl__pb2.Loss.SerializeToString,
+            ),
+            'unlearn_one_client': grpc.unary_unary_rpc_method_handler(
+                    servicer.unlearn_one_client,
+                    request_deserializer=vfl__pb2.NodeInfo.FromString,
+                    response_serializer=vfl__pb2.Code.SerializeToString,
+            ),
+            'get_unlearn_param': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_unlearn_param,
+                    request_deserializer=vfl__pb2.NodeInfo.FromString,
+                    response_serializer=vfl__pb2.DownloadData.SerializeToString,
+            ),
+            'upload_cross_wx_y': grpc.unary_unary_rpc_method_handler(
+                    servicer.upload_cross_wx_y,
+                    request_deserializer=vfl__pb2.UploadDataDict.FromString,
+                    response_serializer=vfl__pb2.Code.SerializeToString,
+            ),
+            'get_cross_wx_y': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_cross_wx_y,
+                    request_deserializer=vfl__pb2.NodeInfo.FromString,
+                    response_serializer=vfl__pb2.DownloadDataDict.SerializeToString,
+            ),
+            'upload_unlearn_power': grpc.unary_unary_rpc_method_handler(
+                    servicer.upload_unlearn_power,
+                    request_deserializer=vfl__pb2.UploadData.FromString,
+                    response_serializer=vfl__pb2.Code.SerializeToString,
+            ),
+            'get_unlearn_power': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_unlearn_power,
+                    request_deserializer=vfl__pb2.NodeInfo.FromString,
+                    response_serializer=vfl__pb2.DownloadDataDict.SerializeToString,
+            ),
+            'upload_unlearn_data_list': grpc.unary_unary_rpc_method_handler(
+                    servicer.upload_unlearn_data_list,
+                    request_deserializer=vfl__pb2.UploadDataList.FromString,
+                    response_serializer=vfl__pb2.Code.SerializeToString,
+            ),
+            'get_unlearn_data_list': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_unlearn_data_list,
+                    request_deserializer=vfl__pb2.NodeInfo.FromString,
+                    response_serializer=vfl__pb2.DownloadDataList.SerializeToString,
+            ),
+            'upload_logit_list': grpc.unary_unary_rpc_method_handler(
+                    servicer.upload_logit_list,
+                    request_deserializer=vfl__pb2.UploadDataList.FromString,
+                    response_serializer=vfl__pb2.DecryptLogit.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -323,7 +467,7 @@ class Vfl(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_encrypt_power',
             vfl__pb2.NodeInfo.SerializeToString,
-            vfl__pb2.DownloadData.FromString,
+            vfl__pb2.DownloadDataDict.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -392,5 +536,158 @@ class Vfl(object):
         return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_total_loss',
             vfl__pb2.NodeInfo.SerializeToString,
             vfl__pb2.Loss.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def unlearn_one_client(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/unlearn_one_client',
+            vfl__pb2.NodeInfo.SerializeToString,
+            vfl__pb2.Code.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_unlearn_param(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_unlearn_param',
+            vfl__pb2.NodeInfo.SerializeToString,
+            vfl__pb2.DownloadData.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def upload_cross_wx_y(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/upload_cross_wx_y',
+            vfl__pb2.UploadDataDict.SerializeToString,
+            vfl__pb2.Code.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_cross_wx_y(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_cross_wx_y',
+            vfl__pb2.NodeInfo.SerializeToString,
+            vfl__pb2.DownloadDataDict.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def upload_unlearn_power(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/upload_unlearn_power',
+            vfl__pb2.UploadData.SerializeToString,
+            vfl__pb2.Code.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_unlearn_power(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_unlearn_power',
+            vfl__pb2.NodeInfo.SerializeToString,
+            vfl__pb2.DownloadDataDict.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def upload_unlearn_data_list(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/upload_unlearn_data_list',
+            vfl__pb2.UploadDataList.SerializeToString,
+            vfl__pb2.Code.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_unlearn_data_list(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/get_unlearn_data_list',
+            vfl__pb2.NodeInfo.SerializeToString,
+            vfl__pb2.DownloadDataList.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def upload_logit_list(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vfl_package.Vfl/upload_logit_list',
+            vfl__pb2.UploadDataList.SerializeToString,
+            vfl__pb2.DecryptLogit.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

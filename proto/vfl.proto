@@ -9,11 +9,20 @@ service Vfl {
   rpc upload_encrypt_gradient(EncryptGradient) returns (Code) {}
   rpc get_decrypt_gradient(NodeInfo) returns (DecryptGradient) {}
   rpc upload_encrypt_power(UploadData) returns (Code) {}
-  rpc get_encrypt_power(NodeInfo) returns (DownloadData) {}
+  rpc get_encrypt_power(NodeInfo) returns (DownloadDataDict) {}
   rpc upload_data_list(UploadDataList) returns (Code) {}
   rpc get_data_list(NodeInfo) returns (DownloadDataList) {}
   rpc upload_total_loss(UploadData) returns (Code) {}
   rpc get_total_loss(NodeInfo) returns (Loss) {}
+  rpc unlearn_one_client(NodeInfo) returns (Code) {}
+  rpc get_unlearn_param(NodeInfo) returns (DownloadData) {}
+  rpc upload_cross_wx_y(UploadDataDict) returns (Code) {}
+  rpc get_cross_wx_y(NodeInfo) returns (DownloadDataDict) {}
+  rpc upload_unlearn_power(UploadData) returns (Code) {}
+  rpc get_unlearn_power(NodeInfo) returns (DownloadDataDict) {}
+  rpc upload_unlearn_data_list(UploadDataList) returns (Code) {}
+  rpc get_unlearn_data_list(NodeInfo) returns (DownloadDataList) {}
+  rpc upload_logit_list(UploadDataList) returns (DecryptLogit) {}
 }
 
 message Code {
@@ -24,6 +33,21 @@ message Code {
 message NodeInfo {
   string cid = 1;
   int32 epoch = 2;
+}
+
+message DecryptLogit {
+  Code code = 1;
+  repeated float logit = 2;
+}
+
+message UploadDataDict {
+  NodeInfo node = 1;
+  map<string, EncryptData> data = 2;
+}
+
+message DownloadDataDict {
+  Code code = 1;
+  map<string, EncryptData> data = 2;
 }
 
 message EncryptData {
@@ -46,9 +70,13 @@ message DownloadData {
   EncryptData data = 2;
 }
 
+message DataList {
+  repeated EncryptData data_list = 1;
+}
+
 message DownloadDataList {
   Code code = 1;
-  repeated EncryptData data_list = 2;
+  map<string, DataList> data_list = 2;
 }
 
 message EncryptGradient {

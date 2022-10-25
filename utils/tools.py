@@ -27,7 +27,7 @@ def read_data(path):
     data = pd.read_csv(path)
     columns = data.columns.values.tolist()
     columns = columns[1:]
-    data_np = data.iloc[:1000, 1:].to_numpy()
+    data_np = data.iloc[:, 1:].to_numpy()
     return columns, data_np
 
 

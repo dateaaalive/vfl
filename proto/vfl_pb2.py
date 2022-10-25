@@ -14,17 +14,24 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tvfl.proto\x12\x0bvfl_package\"\"\n\x04\x43ode\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x65sc\x18\x02 \x01(\t\"&\n\x08NodeInfo\x12\x0b\n\x03\x63id\x18\x01 \x01(\t\x12\r\n\x05\x65poch\x18\x02 \x01(\x05\"3\n\x0b\x45ncryptData\x12\x12\n\nciphertext\x18\x01 \x01(\t\x12\x10\n\x08\x65xponent\x18\x02 \x01(\x05\"Y\n\nUploadData\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12&\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData\"b\n\x0eUploadDataList\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12+\n\tdata_list\x18\x02 \x03(\x0b\x32\x18.vfl_package.EncryptData\"W\n\x0c\x44ownloadData\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12&\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData\"`\n\x10\x44ownloadDataList\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12+\n\tdata_list\x18\x02 \x03(\x0b\x32\x18.vfl_package.EncryptData\"\x80\x01\n\x0f\x45ncryptGradient\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12#\n\x01w\x18\x02 \x03(\x0b\x32\x18.vfl_package.EncryptData\x12#\n\x01\x62\x18\x03 \x01(\x0b\x32\x18.vfl_package.EncryptData\"H\n\x0f\x44\x65\x63ryptGradient\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\t\n\x01w\x18\x02 \x03(\x02\x12\t\n\x01\x62\x18\x03 \x01(\x02\"5\n\x04Loss\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\x0c\n\x04loss\x18\x02 \x01(\x02\x32\x8a\x06\n\x03Vfl\x12\x36\n\x08register\x12\x15.vfl_package.NodeInfo\x1a\x11.vfl_package.Code\"\x00\x12\x43\n\x13upload_encrypt_data\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12J\n\x14get_col_encrypt_data\x12\x15.vfl_package.NodeInfo\x1a\x19.vfl_package.DownloadData\"\x00\x12L\n\x17upload_encrypt_gradient\x12\x1c.vfl_package.EncryptGradient\x1a\x11.vfl_package.Code\"\x00\x12M\n\x14get_decrypt_gradient\x12\x15.vfl_package.NodeInfo\x1a\x1c.vfl_package.DecryptGradient\"\x00\x12\x44\n\x14upload_encrypt_power\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12G\n\x11get_encrypt_power\x12\x15.vfl_package.NodeInfo\x1a\x19.vfl_package.DownloadData\"\x00\x12\x44\n\x10upload_data_list\x12\x1b.vfl_package.UploadDataList\x1a\x11.vfl_package.Code\"\x00\x12G\n\rget_data_list\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataList\"\x00\x12\x41\n\x11upload_total_loss\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12<\n\x0eget_total_loss\x12\x15.vfl_package.NodeInfo\x1a\x11.vfl_package.Loss\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tvfl.proto\x12\x0bvfl_package\"\"\n\x04\x43ode\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x65sc\x18\x02 \x01(\t\"&\n\x08NodeInfo\x12\x0b\n\x03\x63id\x18\x01 \x01(\t\x12\r\n\x05\x65poch\x18\x02 \x01(\x05\">\n\x0c\x44\x65\x63ryptLogit\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\r\n\x05logit\x18\x02 \x03(\x02\"\xb1\x01\n\x0eUploadDataDict\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12\x33\n\x04\x64\x61ta\x18\x02 \x03(\x0b\x32%.vfl_package.UploadDataDict.DataEntry\x1a\x45\n\tDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\'\n\x05value\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData:\x02\x38\x01\"\xb1\x01\n\x10\x44ownloadDataDict\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\x35\n\x04\x64\x61ta\x18\x02 \x03(\x0b\x32\'.vfl_package.DownloadDataDict.DataEntry\x1a\x45\n\tDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\'\n\x05value\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData:\x02\x38\x01\"3\n\x0b\x45ncryptData\x12\x12\n\nciphertext\x18\x01 \x01(\t\x12\x10\n\x08\x65xponent\x18\x02 \x01(\x05\"Y\n\nUploadData\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12&\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData\"b\n\x0eUploadDataList\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12+\n\tdata_list\x18\x02 \x03(\x0b\x32\x18.vfl_package.EncryptData\"W\n\x0c\x44ownloadData\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12&\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x18.vfl_package.EncryptData\"7\n\x08\x44\x61taList\x12+\n\tdata_list\x18\x01 \x03(\x0b\x32\x18.vfl_package.EncryptData\"\xbb\x01\n\x10\x44ownloadDataList\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12>\n\tdata_list\x18\x02 \x03(\x0b\x32+.vfl_package.DownloadDataList.DataListEntry\x1a\x46\n\rDataListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.vfl_package.DataList:\x02\x38\x01\"\x80\x01\n\x0f\x45ncryptGradient\x12#\n\x04node\x18\x01 \x01(\x0b\x32\x15.vfl_package.NodeInfo\x12#\n\x01w\x18\x02 \x03(\x0b\x32\x18.vfl_package.EncryptData\x12#\n\x01\x62\x18\x03 \x01(\x0b\x32\x18.vfl_package.EncryptData\"H\n\x0f\x44\x65\x63ryptGradient\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\t\n\x01w\x18\x02 \x03(\x02\x12\t\n\x01\x62\x18\x03 \x01(\x02\"5\n\x04Loss\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x11.vfl_package.Code\x12\x0c\n\x04loss\x18\x02 \x01(\x02\x32\xab\x0b\n\x03Vfl\x12\x36\n\x08register\x12\x15.vfl_package.NodeInfo\x1a\x11.vfl_package.Code\"\x00\x12\x43\n\x13upload_encrypt_data\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12J\n\x14get_col_encrypt_data\x12\x15.vfl_package.NodeInfo\x1a\x19.vfl_package.DownloadData\"\x00\x12L\n\x17upload_encrypt_gradient\x12\x1c.vfl_package.EncryptGradient\x1a\x11.vfl_package.Code\"\x00\x12M\n\x14get_decrypt_gradient\x12\x15.vfl_package.NodeInfo\x1a\x1c.vfl_package.DecryptGradient\"\x00\x12\x44\n\x14upload_encrypt_power\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12K\n\x11get_encrypt_power\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataDict\"\x00\x12\x44\n\x10upload_data_list\x12\x1b.vfl_package.UploadDataList\x1a\x11.vfl_package.Code\"\x00\x12G\n\rget_data_list\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataList\"\x00\x12\x41\n\x11upload_total_loss\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12<\n\x0eget_total_loss\x12\x15.vfl_package.NodeInfo\x1a\x11.vfl_package.Loss\"\x00\x12@\n\x12unlearn_one_client\x12\x15.vfl_package.NodeInfo\x1a\x11.vfl_package.Code\"\x00\x12G\n\x11get_unlearn_param\x12\x15.vfl_package.NodeInfo\x1a\x19.vfl_package.DownloadData\"\x00\x12\x45\n\x11upload_cross_wx_y\x12\x1b.vfl_package.UploadDataDict\x1a\x11.vfl_package.Code\"\x00\x12H\n\x0eget_cross_wx_y\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataDict\"\x00\x12\x44\n\x14upload_unlearn_power\x12\x17.vfl_package.UploadData\x1a\x11.vfl_package.Code\"\x00\x12K\n\x11get_unlearn_power\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataDict\"\x00\x12L\n\x18upload_unlearn_data_list\x12\x1b.vfl_package.UploadDataList\x1a\x11.vfl_package.Code\"\x00\x12O\n\x15get_unlearn_data_list\x12\x15.vfl_package.NodeInfo\x1a\x1d.vfl_package.DownloadDataList\"\x00\x12M\n\x11upload_logit_list\x12\x1b.vfl_package.UploadDataList\x1a\x19.vfl_package.DecryptLogit\"\x00\x62\x06proto3')
 
 
 
 _CODE = DESCRIPTOR.message_types_by_name['Code']
 _NODEINFO = DESCRIPTOR.message_types_by_name['NodeInfo']
+_DECRYPTLOGIT = DESCRIPTOR.message_types_by_name['DecryptLogit']
+_UPLOADDATADICT = DESCRIPTOR.message_types_by_name['UploadDataDict']
+_UPLOADDATADICT_DATAENTRY = _UPLOADDATADICT.nested_types_by_name['DataEntry']
+_DOWNLOADDATADICT = DESCRIPTOR.message_types_by_name['DownloadDataDict']
+_DOWNLOADDATADICT_DATAENTRY = _DOWNLOADDATADICT.nested_types_by_name['DataEntry']
 _ENCRYPTDATA = DESCRIPTOR.message_types_by_name['EncryptData']
 _UPLOADDATA = DESCRIPTOR.message_types_by_name['UploadData']
 _UPLOADDATALIST = DESCRIPTOR.message_types_by_name['UploadDataList']
 _DOWNLOADDATA = DESCRIPTOR.message_types_by_name['DownloadData']
+_DATALIST = DESCRIPTOR.message_types_by_name['DataList']
 _DOWNLOADDATALIST = DESCRIPTOR.message_types_by_name['DownloadDataList']
+_DOWNLOADDATALIST_DATALISTENTRY = _DOWNLOADDATALIST.nested_types_by_name['DataListEntry']
 _ENCRYPTGRADIENT = DESCRIPTOR.message_types_by_name['EncryptGradient']
 _DECRYPTGRADIENT = DESCRIPTOR.message_types_by_name['DecryptGradient']
 _LOSS = DESCRIPTOR.message_types_by_name['Loss']
@@ -41,6 +48,43 @@ NodeInfo = _reflection.GeneratedProtocolMessageType('NodeInfo', (_message.Messag
   # @@protoc_insertion_point(class_scope:vfl_package.NodeInfo)
   })
 _sym_db.RegisterMessage(NodeInfo)
+
+DecryptLogit = _reflection.GeneratedProtocolMessageType('DecryptLogit', (_message.Message,), {
+  'DESCRIPTOR' : _DECRYPTLOGIT,
+  '__module__' : 'vfl_pb2'
+  # @@protoc_insertion_point(class_scope:vfl_package.DecryptLogit)
+  })
+_sym_db.RegisterMessage(DecryptLogit)
+
+UploadDataDict = _reflection.GeneratedProtocolMessageType('UploadDataDict', (_message.Message,), {
+
+  'DataEntry' : _reflection.GeneratedProtocolMessageType('DataEntry', (_message.Message,), {
+    'DESCRIPTOR' : _UPLOADDATADICT_DATAENTRY,
+    '__module__' : 'vfl_pb2'
+    # @@protoc_insertion_point(class_scope:vfl_package.UploadDataDict.DataEntry)
+    })
+  ,
+  'DESCRIPTOR' : _UPLOADDATADICT,
+  '__module__' : 'vfl_pb2'
+  # @@protoc_insertion_point(class_scope:vfl_package.UploadDataDict)
+  })
+_sym_db.RegisterMessage(UploadDataDict)
+_sym_db.RegisterMessage(UploadDataDict.DataEntry)
+
+DownloadDataDict = _reflection.GeneratedProtocolMessageType('DownloadDataDict', (_message.Message,), {
+
+  'DataEntry' : _reflection.GeneratedProtocolMessageType('DataEntry', (_message.Message,), {
+    'DESCRIPTOR' : _DOWNLOADDATADICT_DATAENTRY,
+    '__module__' : 'vfl_pb2'
+    # @@protoc_insertion_point(class_scope:vfl_package.DownloadDataDict.DataEntry)
+    })
+  ,
+  'DESCRIPTOR' : _DOWNLOADDATADICT,
+  '__module__' : 'vfl_pb2'
+  # @@protoc_insertion_point(class_scope:vfl_package.DownloadDataDict)
+  })
+_sym_db.RegisterMessage(DownloadDataDict)
+_sym_db.RegisterMessage(DownloadDataDict.DataEntry)
 
 EncryptData = _reflection.GeneratedProtocolMessageType('EncryptData', (_message.Message,), {
   'DESCRIPTOR' : _ENCRYPTDATA,
@@ -70,12 +114,27 @@ DownloadData = _reflection.GeneratedProtocolMessageType('DownloadData', (_messag
   })
 _sym_db.RegisterMessage(DownloadData)
 
+DataList = _reflection.GeneratedProtocolMessageType('DataList', (_message.Message,), {
+  'DESCRIPTOR' : _DATALIST,
+  '__module__' : 'vfl_pb2'
+  # @@protoc_insertion_point(class_scope:vfl_package.DataList)
+  })
+_sym_db.RegisterMessage(DataList)
+
 DownloadDataList = _reflection.GeneratedProtocolMessageType('DownloadDataList', (_message.Message,), {
+
+  'DataListEntry' : _reflection.GeneratedProtocolMessageType('DataListEntry', (_message.Message,), {
+    'DESCRIPTOR' : _DOWNLOADDATALIST_DATALISTENTRY,
+    '__module__' : 'vfl_pb2'
+    # @@protoc_insertion_point(class_scope:vfl_package.DownloadDataList.DataListEntry)
+    })
+  ,
   'DESCRIPTOR' : _DOWNLOADDATALIST,
   '__module__' : 'vfl_pb2'
   # @@protoc_insertion_point(class_scope:vfl_package.DownloadDataList)
   })
 _sym_db.RegisterMessage(DownloadDataList)
+_sym_db.RegisterMessage(DownloadDataList.DataListEntry)
 
 EncryptGradient = _reflection.GeneratedProtocolMessageType('EncryptGradient', (_message.Message,), {
   'DESCRIPTOR' : _ENCRYPTGRADIENT,
@@ -102,26 +161,46 @@ _VFL = DESCRIPTOR.services_by_name['Vfl']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
+  _UPLOADDATADICT_DATAENTRY._options = None
+  _UPLOADDATADICT_DATAENTRY._serialized_options = b'8\001'
+  _DOWNLOADDATADICT_DATAENTRY._options = None
+  _DOWNLOADDATADICT_DATAENTRY._serialized_options = b'8\001'
+  _DOWNLOADDATALIST_DATALISTENTRY._options = None
+  _DOWNLOADDATALIST_DATALISTENTRY._serialized_options = b'8\001'
   _CODE._serialized_start=26
   _CODE._serialized_end=60
   _NODEINFO._serialized_start=62
   _NODEINFO._serialized_end=100
-  _ENCRYPTDATA._serialized_start=102
-  _ENCRYPTDATA._serialized_end=153
-  _UPLOADDATA._serialized_start=155
-  _UPLOADDATA._serialized_end=244
-  _UPLOADDATALIST._serialized_start=246
-  _UPLOADDATALIST._serialized_end=344
-  _DOWNLOADDATA._serialized_start=346
-  _DOWNLOADDATA._serialized_end=433
-  _DOWNLOADDATALIST._serialized_start=435
-  _DOWNLOADDATALIST._serialized_end=531
-  _ENCRYPTGRADIENT._serialized_start=534
-  _ENCRYPTGRADIENT._serialized_end=662
-  _DECRYPTGRADIENT._serialized_start=664
-  _DECRYPTGRADIENT._serialized_end=736
-  _LOSS._serialized_start=738
-  _LOSS._serialized_end=791
-  _VFL._serialized_start=794
-  _VFL._serialized_end=1572
+  _DECRYPTLOGIT._serialized_start=102
+  _DECRYPTLOGIT._serialized_end=164
+  _UPLOADDATADICT._serialized_start=167
+  _UPLOADDATADICT._serialized_end=344
+  _UPLOADDATADICT_DATAENTRY._serialized_start=275
+  _UPLOADDATADICT_DATAENTRY._serialized_end=344
+  _DOWNLOADDATADICT._serialized_start=347
+  _DOWNLOADDATADICT._serialized_end=524
+  _DOWNLOADDATADICT_DATAENTRY._serialized_start=275
+  _DOWNLOADDATADICT_DATAENTRY._serialized_end=344
+  _ENCRYPTDATA._serialized_start=526
+  _ENCRYPTDATA._serialized_end=577
+  _UPLOADDATA._serialized_start=579
+  _UPLOADDATA._serialized_end=668
+  _UPLOADDATALIST._serialized_start=670
+  _UPLOADDATALIST._serialized_end=768
+  _DOWNLOADDATA._serialized_start=770
+  _DOWNLOADDATA._serialized_end=857
+  _DATALIST._serialized_start=859
+  _DATALIST._serialized_end=914
+  _DOWNLOADDATALIST._serialized_start=917
+  _DOWNLOADDATALIST._serialized_end=1104
+  _DOWNLOADDATALIST_DATALISTENTRY._serialized_start=1034
+  _DOWNLOADDATALIST_DATALISTENTRY._serialized_end=1104
+  _ENCRYPTGRADIENT._serialized_start=1107
+  _ENCRYPTGRADIENT._serialized_end=1235
+  _DECRYPTGRADIENT._serialized_start=1237
+  _DECRYPTGRADIENT._serialized_end=1309
+  _LOSS._serialized_start=1311
+  _LOSS._serialized_end=1364
+  _VFL._serialized_start=1367
+  _VFL._serialized_end=2818
 # @@protoc_insertion_point(module_scope)

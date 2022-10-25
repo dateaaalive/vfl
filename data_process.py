@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 from typing import List, Dict, Tuple
 
 attr_classes = {
@@ -88,12 +89,14 @@ def miss_value_handler(df, mean_std):
 def split_feature(arr: np.ndarray) -> Tuple[np.ndarray, ...]:
     feature, label = arr[:, :-1], arr[:, -1:]
 
-    a_feature_size = 50
+    a_feature_size = 40
+    b_feature_size = 80
 
     a_feature = feature[:, :a_feature_size]
-    b_feature = feature[:, a_feature_size:]
+    b_feature = feature[:, a_feature_size:b_feature_size]
+    c_feature = feature[:, b_feature_size:]
 
-    return a_feature, b_feature, label
+    return a_feature, b_feature, c_feature, label
 
 
 names = ["age", "workclass", "fnlwgt", "education", "education-num", "marital-status", "occupation",
@@ -108,15 +111,27 @@ train_data = miss_value_handler(train_data, mean_std)
 test_data = miss_value_handler(test_data, mean_std)
 train_data = df_to_arr(train_data)
 test_data = df_to_arr(test_data)
+if not os.path.exists("data"):
+    os.mkdir("data")
 np.savez("data/adult.train.npz", train_data)
-a, b, label = split_feature(train_data)
+a, b, c, label = split_feature(train_data)
+if not os.path.exists("data/2"):
+    os.mkdir("data/2")
+if not os.path.exists("data/3"):
+    os.mkdir("data/3")
+if not os.path.exists("data/4"):
+    os.mkdir("data/4")
+if not os.path.exists("data/label"):
+    os.mkdir("data/label")
 np.savez("data/2/train.npz", a)
 np.savez("data/3/train.npz", b)
+np.savez("data/4/train.npz", c)
 np.savez("data/label/train.npz", label)
 np.savez("data/adult.test.npz", test_data)
-a, b, label = split_feature(test_data)
+a, b, c, label = split_feature(test_data)
 np.savez("data/2/test.npz", a)
 np.savez("data/3/test.npz", b)
+np.savez("data/4/test.npz", c)
 np.savez("data/label/test.npz", label)
 
 
@@ -138,8 +153,10 @@ def to_suitable_data(file_name, start_index=0, has_label=False):
 
 
 to_suitable_data("data/2/train.npz")
-to_suitable_data("data/3/train.npz", 50)
+to_suitable_data("data/3/train.npz", 40)
+to_suitable_data("data/4/train.npz", 80)
 to_suitable_data("data/label/train.npz", 0, True)
 to_suitable_data("data/2/test.npz")
-to_suitable_data("data/3/test.npz", 50)
+to_suitable_data("data/3/test.npz", 40)
+to_suitable_data("data/4/test.npz", 80)
 to_suitable_data("data/label/test.npz", 0, True)
